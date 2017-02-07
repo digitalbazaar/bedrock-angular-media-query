@@ -29,7 +29,7 @@ function factory($rootScope, $window) {
    *          to the screen, e.g. ['phone', 'desktop'], where the names
    *          must be registered via `registerQuery` and whose status may be
    *          checked using the event given to the listener via
-   *          `event.isMedia(name)`.
+   *          `event.changes[name]` or `event.isMedia(name)`.
    * @param listener(event) the screen change event listener to use.
    *
    * @return a function that can be called to unregister the listener.
@@ -91,7 +91,7 @@ function factory($rootScope, $window) {
     var mediaQueryList = $window.matchMedia(media);
     var listener = function(event) {
       service._state = {name: event.matches};
-      mediaChange(name, event.matches);
+      mediaChange(name, event.media, event.matches);
     };
     mediaQueryList.addListener(listener);
     service._queries[name] = {
@@ -115,15 +115,19 @@ function factory($rootScope, $window) {
     }
   };
 
-  function mediaChange(name, matches) {
+  function mediaChange(name, media, matches) {
     // emit change event to all listeners that are watching `name`
     var listeners = service._listeners[name];
     if(listeners) {
       angular.forEach(listeners, function(listener) {
-        var changes = {};
-        changes[name] = {matches: matches};
-        changes.isMedia = isMedia;
-        $rootScope.$apply(listener.bind(listener, changes));
+        var event = {
+          queryName: name,
+          matches: matches,
+          media: media,
+          changes: {name: matches},
+          isMedia: isMedia
+        };
+        $rootScope.$apply(listener.bind(listener, event));
       });
     }
   }
