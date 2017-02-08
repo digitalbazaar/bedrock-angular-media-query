@@ -115,24 +115,15 @@ function factory($rootScope, $window) {
     }
   };
 
-  function mediaChange(name, media, matches) {
-    // emit change event to all listeners that are watching `name`
-    var listeners = service._listeners[name];
-    if(listeners) {
-      angular.forEach(listeners, function(listener) {
-        var event = {
-          queryName: name,
-          matches: matches,
-          media: media,
-          changes: {name: matches},
-          isMedia: isMedia
-        };
-        $rootScope.$apply(listener.bind(listener, event));
-      });
-    }
-  }
-
-  function isMedia(name) {
+  /**
+   * Checks the status of a named media query to see if the user's media
+   * currently matches.
+   *
+   * @param name the name of the query to check.
+   *
+   * @return true if the query presently matches, false if not.
+   */
+  service.isMedia = function(name) {
     if(!(name in service._queries)) {
       throw new Error(
         'No media query has been registered with the name "' + name + '".');
@@ -143,6 +134,23 @@ function factory($rootScope, $window) {
         service._queries[name].media).matches;
     }
     return service._state[name];
+  };
+
+  function mediaChange(name, media, matches) {
+    // emit change event to all listeners that are watching `name`
+    var listeners = service._listeners[name];
+    if(listeners) {
+      angular.forEach(listeners, function(listener) {
+        var event = {
+          queryName: name,
+          matches: matches,
+          media: media,
+          changes: {name: matches},
+          isMedia: service.isMedia
+        };
+        $rootScope.$apply(listener.bind(listener, event));
+      });
+    }
   }
 
   function ensureFeature(feature) {
