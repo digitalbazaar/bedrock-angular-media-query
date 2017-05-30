@@ -1,0 +1,20 @@
+{
+  "name": "bedrock-angular-media-query",
+  "version": "1.0.1",
+  "description": "Bedrock AngularJS media query utils",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "~1.6.4"
+  },
+  "bedrock": {
+    "browserDependencies": "all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digitalbazaar/bedrock-angular-media-query.git"
+  },
+  "bugs": {
+    "url": "https://github.com/digitalbazaar/bedrock-angular-media-query/issues"
+  },
+  "homepage": "https://github.com/digitalbazaar/bedrock-angular-media-query#readme"
+}

@@ -1,16 +1,10 @@
 /*!
  * Copyright (c) 2017 Digital Bazaar, Inc. All rights reserved.
  */
-define(['angular'], function(angular) {
-
-'use strict';
-
-function register(module) {
-  module.service('brMediaQueryService', factory);
-}
+import angular from 'angular';
 
 /* @ngInject */
-function factory($rootScope, $window) {
+export default function factory($rootScope, $window) {
   var service = {};
 
   // registered queries and their private listeners
@@ -176,7 +170,3 @@ function factory($rootScope, $window) {
 
   return service;
 }
-
-return register;
-
-});
