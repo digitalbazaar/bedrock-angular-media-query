@@ -4,7 +4,7 @@
   "description": "Bedrock AngularJS media query utils",
   "main": "index.js",
   "dependencies": {
-    "angular": "~1.6.4"
+    "angular": "~1.8.0"
   },
   "bedrock": {
     "browserDependencies": "all"
